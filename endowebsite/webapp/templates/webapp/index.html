@@ -662,8 +662,37 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="{% static 'webapp/js/main.js' %}"></script>
 
     <!--===== MAPS JS=====-->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTS_KEDfHXYBslFTI_qPJIybDP3eceE-A&sensor=false"></script>
-    <script src="{% static 'webapp/js/maps.active.js' %}"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiamphbmN6eXN6eW4iLCJhIjoiY2pvMXNnMG41MGRweDNxa3VzNmtzdm84MyJ9.AWOZiwL7K3PpZ_7EEYcj-g';
+        var map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/jjanczyszyn/cjo1jphag1mco2snu69qo36m7',
+          center: [13.409405, 52.516515],
+          zoom: 11
+        });
+
+        map.fitBounds([[5.98865807458, 47.3024876979], [15.0169958839, 54.983104153]]);
+        map.on('click', function(e) {
+          var features = map.queryRenderedFeatures(e.point, {
+            layers: ['endo-centers', 'support-groups']
+          });
+
+          if (!features.length) {
+            return;
+          }
+
+          var feature = features[0];
+          let description = feature.properties.description.replace('\n', '</br>');
+
+          var popup = new mapboxgl.Popup({ offset: [0, -15] })
+            .setLngLat(feature.geometry.coordinates)
+            .setHTML('<p>' + feature.properties.title + '</p><p>' + description + '</p>')
+            .setLngLat(feature.geometry.coordinates)
+            .addTo(map);
+        });
+        </script>
 </body>
 
 </html>
