@@ -1,2 +1,4 @@
 pandas
+django_heroku
+gunicorn
 django
