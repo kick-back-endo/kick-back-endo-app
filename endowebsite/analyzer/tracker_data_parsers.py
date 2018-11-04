@@ -74,6 +74,7 @@ if __name__ == '__main__':
 
     filename_clue = "fixture.cluedata"
 
+    import pdb; pdb.set_trace()
     with open(filename_clue) as f:
         data_clue = json.load(f)
 
